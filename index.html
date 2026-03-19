@@ -4,98 +4,190 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CPQ Master Course - Complete Learning Platform</title>
+    <meta name="description" content="Complete CPQ learning platform with 7 modules, 16 exercises, 4 case studies, quizzes, and resources">
+    <link rel="stylesheet" href="shared.css">
+    <script src="theme.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-body);
             min-height: 100vh;
             padding: 20px;
-            color: #333;
+            color: var(--text-primary);
         }
         .container { max-width: 1400px; margin: 0 auto; }
         header {
-            background: white;
+            background: var(--bg-hero);
             padding: 60px 40px;
-            border-radius: 15px;
+            border-radius: var(--radius-lg);
             text-align: center;
             margin-bottom: 40px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            box-shadow: var(--shadow-lg);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 50%;
         }
         header h1 {
             font-size: 3em;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 15px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            position: relative;
         }
-        header p { font-size: 1.2em; color: #666; }
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+        }
         .master-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+            gap: 20px;
             margin-bottom: 40px;
         }
         .platform-card {
-            background: white;
-            border-radius: 12px;
-            padding: 35px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            transition: all 0.3s;
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            padding: 30px;
+            box-shadow: var(--shadow-card);
+            transition: all var(--transition-base);
             cursor: pointer;
             text-decoration: none;
-            color: #333;
-            border-top: 4px solid #667eea;
+            color: var(--text-primary);
+            border: 1px solid var(--border-light);
+            position: relative;
+            overflow: hidden;
+        }
+        .platform-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--brand-primary), var(--brand-secondary));
+            opacity: 0;
+            transition: opacity var(--transition-base);
         }
         .platform-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--brand-primary-light);
         }
-        .platform-card .icon { font-size: 3em; margin-bottom: 15px; }
-        .platform-card h2 { color: #667eea; margin-bottom: 15px; }
-        .platform-card p { color: #666; margin-bottom: 15px; line-height: 1.6; }
-        .platform-card .meta { color: #999; font-size: 0.9em; padding-top: 15px; border-top: 1px solid #f0f0f0; }
-        .stats {
-            background: white;
-            border-radius: 12px;
-            padding: 40px;
-            margin-bottom: 40px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        .platform-card:hover::before { opacity: 1; }
+        .platform-card .icon { font-size: 2.5em; margin-bottom: 14px; }
+        .platform-card h2 {
+            color: var(--brand-primary);
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            font-weight: 700;
         }
-        .stats h2 { color: #667eea; text-align: center; margin-bottom: 30px; }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
+        .platform-card p { color: var(--text-secondary); margin-bottom: 14px; line-height: 1.6; font-size: 0.92em; }
+        .platform-card .meta {
+            color: var(--text-muted);
+            font-size: 0.82em;
+            padding-top: 14px;
+            border-top: 1px solid var(--border-light);
         }
-        .stat { text-align: center; padding: 20px; }
-        .stat-num { font-size: 2.5em; font-weight: bold; color: #667eea; }
-        .stat-label { color: #666; margin-top: 10px; }
         .start-button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
             color: white;
-            padding: 15px 30px;
-            border-radius: 25px;
+            padding: 10px 22px;
+            border-radius: var(--radius-full);
             text-decoration: none;
             font-weight: 600;
             display: inline-block;
-            transition: all 0.3s;
-            margin-top: 15px;
+            transition: all var(--transition-base);
+            margin-top: 10px;
+            font-size: 0.88em;
         }
         .start-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35);
         }
-        footer {
-            background: white;
+
+        /* Stats */
+        .stats {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
             padding: 40px;
-            border-radius: 12px;
-            text-align: center;
-            color: #666;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--border-light);
         }
+        .stats h2 { color: var(--brand-primary); text-align: center; margin-bottom: 30px; font-weight: 700; }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 20px;
+        }
+        .stat { text-align: center; padding: 16px; }
+        .stat-num {
+            font-size: 2.2em;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stat-label { color: var(--text-secondary); margin-top: 6px; font-size: 0.9em; }
+
+        /* Progress Section */
+        .progress-section {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--border-light);
+        }
+        .progress-section h2 {
+            color: var(--brand-primary);
+            margin-bottom: 20px;
+            font-weight: 700;
+            font-size: 1.3em;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-light);
+        }
+        footer h2 { color: var(--brand-primary); margin-bottom: 20px; }
+        footer ul {
+            list-style: none;
+            margin: 20px 0;
+            text-align: left;
+            display: inline-block;
+        }
+        footer li { margin-bottom: 6px; font-size: 0.92em; }
+
         @media (max-width: 768px) {
             header h1 { font-size: 2em; }
             .master-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(3, 1fr); }
         }
     </style>
 </head>
@@ -103,7 +195,7 @@
     <div class="container">
         <header>
             <h1>🚀 CPQ Master Course Platform</h1>
-            <p>Complete Learning Ecosystem - All Resources in One Place</p>
+            <p>Complete Learning Ecosystem — All Resources in One Place</p>
         </header>
 
         <div class="master-grid">
@@ -147,7 +239,15 @@
                 <div class="meta">✅ Guides | Tips | Certification</div>
             </a>
 
-            <a href="START_HERE.md" class="platform-card">
+            <a href="quiz.html" class="platform-card">
+                <div class="icon">✍️</div>
+                <h2>Knowledge Quizzes</h2>
+                <p>Test your understanding with interactive quizzes for every module</p>
+                <span class="start-button">Take Quizzes →</span>
+                <div class="meta">✅ 7 Quizzes | 38 Questions | Instant Feedback</div>
+            </a>
+
+            <a href="learning-guides.html" class="platform-card">
                 <div class="icon">⚡</div>
                 <h2>Quick Start</h2>
                 <p>5-minute setup guide and quick reference for getting started immediately</p>
@@ -156,8 +256,13 @@
             </a>
         </div>
 
+        <div class="progress-section">
+            <h2>📈 Your Learning Progress</h2>
+            <div id="cpq-home-progress"><p style="color:var(--text-muted)">Start the course to track your progress across all 7 modules.</p></div>
+        </div>
+
         <div class="stats">
-            <h2>📈 Complete Learning Platform</h2>
+            <h2>📊 Complete Learning Platform</h2>
             <div class="stats-grid">
                 <div class="stat">
                     <div class="stat-num">7</div>
@@ -176,8 +281,8 @@
                     <div class="stat-label">Exercises</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-num">4</div>
-                    <div class="stat-label">Case Studies</div>
+                    <div class="stat-num">38</div>
+                    <div class="stat-label">Quiz Questions</div>
                 </div>
                 <div class="stat">
                     <div class="stat-num">80-120</div>
@@ -187,17 +292,16 @@
         </div>
 
         <footer>
-            <h2 style="color: #667eea; margin-bottom: 20px;">✨ The Complete CPQ Learning Platform</h2>
+            <h2>✨ The Complete CPQ Learning Platform</h2>
             <p><strong>Everything you need to master ServiceNow CPQ:</strong></p>
-            <ul style="list-style: none; margin: 20px 0; text-align: left; display: inline-block;">
+            <ul>
                 <li>✅ Interactive web course with all 7 modules</li>
                 <li>✅ 16 hands-on exercises with solutions</li>
                 <li>✅ 4 real-world case studies with ROI</li>
+                <li>✅ 7 interactive knowledge quizzes</li>
                 <li>✅ Learning guides and resources</li>
-                <li>✅ Certification preparation materials</li>
-                <li>✅ Beautiful responsive design</li>
-                <li>✅ MIT licensed and shareable</li>
-                <li>✅ GitHub ready</li>
+                <li>✅ Progress tracking & dark mode</li>
+                <li>✅ Search across all content (Ctrl+K)</li>
             </ul>
             <p style="margin-top: 30px;">
                 <strong>Total Learning Time:</strong> 80-120 hours | <strong>Duration:</strong> 13-20 weeks (self-paced)<br>
@@ -205,5 +309,9 @@
             </p>
         </footer>
     </div>
+
+    <script src="progress.js"></script>
+    <script src="search.js"></script>
+    <script src="nav.js"></script>
 </body>
 </html>

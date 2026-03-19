@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Complete CPQ Master Course - All 7 modules fully expanded with 500+ topics, 200+ code examples, 20+ exercises, and case studies">
     <title>CPQ Master Course - Complete Advanced Learning Guide</title>
+    <link rel="stylesheet" href="shared.css">
+    <script src="theme.js"></script>
     <style>
         * {
             margin: 0;
@@ -13,34 +15,34 @@
         }
         
         :root {
-            --primary: #667eea;
-            --secondary: #764ba2;
-            --accent: #f093fb;
-            --success: #4caf50;
-            --warning: #ff9800;
-            --danger: #f44336;
-            --light: #f5f5f5;
-            --dark: #333;
-            --text: #333;
-            --border: #ddd;
+            --primary: var(--brand-primary, #6366f1);
+            --secondary: var(--brand-secondary, #8b5cf6);
+            --accent: var(--brand-accent, #f472b6);
+            --success: var(--color-success, #22c55e);
+            --warning: var(--color-warning, #f59e0b);
+            --danger: var(--color-danger, #ef4444);
+            --light: var(--bg-body, #f8fafc);
+            --dark: var(--text-primary, #1e293b);
+            --text: var(--text-primary, #1e293b);
+            --border: var(--border-light, #e2e8f0);
         }
         
         html { scroll-behavior: smooth; }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: var(--text);
-            background: #fafafa;
+            background: var(--bg-body, #f8fafc);
             margin: 0;
         }
         
         .sidebar {
             position: fixed;
             left: 0;
-            top: 0;
+            top: var(--nav-height, 64px);
             width: 320px;
-            height: 100vh;
+            height: calc(100vh - var(--nav-height, 64px));
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
             overflow-y: auto;
@@ -161,34 +163,34 @@
         }
         
         .box {
-            background: white;
+            background: var(--bg-card, white);
             border-radius: 8px;
             padding: 25px;
             margin: 20px 0;
             border-left: 4px solid;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-card, 0 2px 8px rgba(0,0,0,0.1));
             transition: all 0.3s;
         }
         
         .box:hover {
-            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            box-shadow: var(--shadow-lg, 0 4px 16px rgba(0,0,0,0.15));
             transform: translateY(-2px);
         }
         
-        .info-box { border-left-color: var(--primary); background: #f0f4ff; }
-        .example-box { border-left-color: var(--warning); background: #fff9e6; }
-        .success-box { border-left-color: var(--success); background: #e8f5e9; }
-        .warning-box { border-left-color: var(--warning); background: #fff3e0; }
-        .danger-box { border-left-color: var(--danger); background: #ffebee; }
+        .info-box { border-left-color: var(--primary); background: var(--color-info-bg, #f0f4ff); }
+        .example-box { border-left-color: var(--warning); background: var(--color-warning-bg, #fff9e6); }
+        .success-box { border-left-color: var(--success); background: var(--color-success-bg, #e8f5e9); }
+        .warning-box { border-left-color: var(--warning); background: var(--color-warning-bg, #fff3e0); }
+        .danger-box { border-left-color: var(--danger); background: var(--color-danger-bg, #ffebee); }
         
         .code-box {
-            background: #1e1e1e;
-            color: #d4d4d4;
+            background: var(--bg-code, #1e1e2e);
+            color: var(--text-code, #e2e8f0);
             padding: 25px;
             border-radius: 8px;
             overflow-x: auto;
             margin: 20px 0;
-            font-family: 'Courier New', monospace;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
             border-left: 4px solid var(--primary);
             box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
@@ -247,17 +249,17 @@
         }
         
         .card {
-            background: white;
+            background: var(--bg-card, white);
             padding: 25px;
             border-radius: 8px;
             border: 2px solid var(--border);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-card, 0 2px 8px rgba(0,0,0,0.1));
             transition: all 0.3s;
         }
         
         .card:hover {
             border-color: var(--primary);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            box-shadow: var(--shadow-lg, 0 4px 16px rgba(0,0,0,0.15));
             transform: translateY(-5px);
         }
         
@@ -321,7 +323,7 @@
         footer p { margin: 10px 0; color: #666; }
         
         @media (max-width: 768px) {
-            .sidebar { width: 100%; height: auto; position: relative; }
+            .sidebar { width: 100%; height: auto; position: relative; top: 0; }
             .main-content { margin-left: 0; padding: 20px; }
             .header h1 { font-size: 1.8em; }
             h2 { font-size: 1.6em; }
@@ -1845,6 +1847,9 @@ console.log(totalPrice); // $42,500</code>
         <p>© 2024 | MIT License | <a href="https://github.com/your-username/cpq-learning-guide" style="color: var(--primary);">GitHub Repository</a></p>
     </footer>
 
+    <script src="progress.js"></script>
+    <script src="search.js"></script>
+    <script src="nav.js"></script>
     <script>
         function showSection(id) {
             document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
@@ -1853,6 +1858,12 @@ console.log(totalPrice); // $42,500</code>
                 section.classList.add('active');
                 window.scrollTo(0, 0);
             }
+            // Track progress
+            if (window.cpqProgress) window.cpqProgress.markVisited(id);
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
+            const activeLink = document.querySelector(`[onclick="showSection('${id}')"]`);
+            if (activeLink) activeLink.classList.add('active');
         }
 
         function toggleSubmenu(el) {

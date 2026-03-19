@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CPQ Knowledge Assessment - Interactive quizzes for each module with instant feedback and score tracking">
+    <title>CPQ Quizzes - Test Your Knowledge</title>
+    <link rel="stylesheet" href="shared.css">
+    <script src="theme.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: var(--bg-body);
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 30px 20px; }
+
+        .hero {
+            background: var(--bg-hero);
+            color: white;
+            padding: 60px 40px;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-lg);
+        }
+        .hero h1 { font-size: 2.4em; margin-bottom: 10px; font-weight: 800; }
+        .hero p { font-size: 1.1em; opacity: 0.9; }
+
+        .quiz-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+        .quiz-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 22px;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            box-shadow: var(--shadow-card);
+        }
+        .quiz-card:hover {
+            border-color: var(--brand-primary);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        .quiz-card .icon { font-size: 2em; margin-bottom: 10px; }
+        .quiz-card h3 { color: var(--brand-primary); font-size: 1.05em; margin-bottom: 6px; }
+        .quiz-card p { color: var(--text-secondary); font-size: 0.88em; }
+        .quiz-card .q-count {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 4px 12px;
+            background: var(--color-info-bg);
+            color: var(--brand-primary);
+            border-radius: var(--radius-full);
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+        .quiz-card .score-badge {
+            display: inline-block;
+            margin-top: 6px;
+            margin-left: 6px;
+            padding: 4px 12px;
+            background: var(--color-success-bg);
+            color: var(--color-success);
+            border-radius: var(--radius-full);
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        /* Active Quiz */
+        .quiz-area { display: none; }
+        .quiz-area.active { display: block; }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .quiz-header h2 { color: var(--brand-primary); font-size: 1.6em; }
+        .quiz-header .back-btn {
+            padding: 8px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-family: 'Inter', sans-serif;
+            transition: all var(--transition-fast);
+        }
+        .quiz-header .back-btn:hover {
+            border-color: var(--brand-primary);
+            color: var(--brand-primary);
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: var(--border-light);
+            border-radius: 3px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--brand-primary), var(--brand-secondary));
+            border-radius: 3px;
+            transition: width 0.4s ease;
+        }
+
+        .question-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--border-light);
+        }
+        .question-num {
+            font-size: 0.82em;
+            color: var(--brand-primary);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        .question-text {
+            font-size: 1.15em;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+
+        .options { display: flex; flex-direction: column; gap: 10px; }
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-size: 0.95em;
+        }
+        .option:hover { border-color: var(--brand-primary-light); background: var(--color-info-bg); }
+        .option.selected { border-color: var(--brand-primary); background: var(--color-info-bg); }
+        .option.correct { border-color: var(--color-success); background: var(--color-success-bg); }
+        .option.wrong { border-color: var(--color-danger); background: var(--color-danger-bg); }
+        .option .option-letter {
+            width: 30px; height: 30px;
+            border-radius: var(--radius-full);
+            background: var(--border-light);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.85em;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+        }
+        .option.selected .option-letter { background: var(--brand-primary); color: white; }
+        .option.correct .option-letter { background: var(--color-success); color: white; }
+        .option.wrong .option-letter { background: var(--color-danger); color: white; }
+
+        .feedback {
+            margin-top: 16px;
+            padding: 14px 18px;
+            border-radius: var(--radius-md);
+            font-size: 0.92em;
+            display: none;
+        }
+        .feedback.show { display: block; animation: slideUp 0.3s ease; }
+        .feedback.correct-fb { background: var(--color-success-bg); color: var(--color-success); border-left: 4px solid var(--color-success); }
+        .feedback.wrong-fb { background: var(--color-danger-bg); color: var(--color-danger); border-left: 4px solid var(--color-danger); }
+
+        .quiz-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+        }
+        .btn-primary {
+            padding: 12px 28px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            color: white;
+            border: none;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.95em;
+            font-family: 'Inter', sans-serif;
+            transition: all var(--transition-base);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        /* Results */
+        .results-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-light);
+        }
+        .results-score {
+            font-size: 4em;
+            font-weight: 800;
+            margin: 20px 0;
+        }
+        .results-score.pass { color: var(--color-success); }
+        .results-score.fail { color: var(--color-danger); }
+        .results-detail { color: var(--text-secondary); margin-bottom: 30px; }
+        .results-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .btn-outline {
+            padding: 12px 28px;
+            background: transparent;
+            color: var(--brand-primary);
+            border: 2px solid var(--brand-primary);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.95em;
+            font-family: 'Inter', sans-serif;
+            transition: all var(--transition-base);
+        }
+        .btn-outline:hover {
+            background: var(--brand-primary);
+            color: white;
+        }
+
+        @media (max-width: 600px) {
+            .hero { padding: 40px 20px; }
+            .hero h1 { font-size: 1.8em; }
+            .quiz-selector { grid-template-columns: 1fr; }
+            .question-card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>✍️ Knowledge Quizzes</h1>
+            <p>Test your understanding of each CPQ module with instant feedback</p>
+        </div>
+
+        <div id="quiz-selector" class="quiz-selector"></div>
+        <div id="quiz-area" class="quiz-area"></div>
+    </div>
+
+    <script src="progress.js"></script>
+    <script src="search.js"></script>
+    <script src="nav.js"></script>
+    <script>
+        const quizData = {
+            m1: {
+                title: 'Module 1: Fundamentals',
+                icon: '📖',
+                questions: [
+                    { q: 'What does CPQ stand for?', options: ['Configure, Price, Quote', 'Customer, Product, Quality', 'Create, Process, Query', 'Configure, Plan, Qualify'], answer: 0, explanation: 'CPQ stands for Configure, Price, Quote — the three core functions it automates.' },
+                    { q: 'Which of these is NOT a component of CPQ?', options: ['Configure', 'Price', 'Quote', 'Deploy'], answer: 3, explanation: 'Deploy is not a CPQ component. CPQ handles Configure, Price, and Quote only.' },
+                    { q: 'How much faster is quote generation with CPQ compared to manual processes?', options: ['50% faster', '80% faster', '97% faster', '70% faster'], answer: 2, explanation: 'CPQ reduces quote generation from 2-3 days to 5 minutes — approximately 97% faster.' },
+                    { q: 'What is the typical reduction in pricing errors with CPQ?', options: ['From 30% to 5%', 'From 30% to 0.1%', 'From 50% to 10%', 'From 20% to 5%'], answer: 1, explanation: 'CPQ reduces pricing errors from approximately 30% of quotes to 0.1%.' },
+                    { q: 'Which component handles guided product selection?', options: ['Price', 'Quote', 'Configure', 'Approve'], answer: 2, explanation: 'The Configure component guides customers and reps through product selection and customization.' },
+                    { q: 'What is a "Bundle" in CPQ terminology?', options: ['A pricing rule', 'A collection of products sold as a package', 'An approval workflow', 'A quote template'], answer: 1, explanation: 'A Bundle is a collection of products sold together as a package, often with special pricing.' },
+                    { q: 'What typical improvement in win rate does CPQ provide?', options: ['+10%', '+20%', '+33%', '+50%'], answer: 2, explanation: 'CPQ typically improves win rates from 45% to 60%, a +33% improvement.' },
+                ]
+            },
+            m2: {
+                title: 'Module 2: Products & Pricing',
+                icon: '🛍️',
+                questions: [
+                    { q: 'What is a SKU in product management?', options: ['Sales Key Unit', 'Stock Keeping Unit', 'Service Knowledge Update', 'System Key Utility'], answer: 1, explanation: 'SKU stands for Stock Keeping Unit — a unique identifier for each product variant.' },
+                    { q: 'In a product hierarchy, what is the top level?', options: ['Product', 'Version', 'Product Family', 'SKU'], answer: 2, explanation: 'Product Family is the top level, containing multiple Products, which have Versions/Variants.' },
+                    { q: 'Which pricing model charges based on the number of users?', options: ['Flat rate', 'Per-user pricing', 'Usage-based', 'Tiered pricing'], answer: 1, explanation: 'Per-user pricing charges a rate per user (e.g., $500/user/year).' },
+                    { q: 'What happens when volume discounts are applied?', options: ['Prices increase with quantity', 'Prices decrease with higher quantities', 'A flat discount is applied', 'Pricing stays the same'], answer: 1, explanation: 'Volume discounts reduce the price per unit as quantity increases (e.g., 100+ units = 15% off).' },
+                    { q: 'What is an "Add-on" in CPQ?', options: ['A mandatory product component', 'An optional product that enhances the base product', 'A discount type', 'A quote template'], answer: 1, explanation: 'Add-ons are optional products that enhance the base product (e.g., API Access, Analytics).' },
+                    { q: 'Which type of discount is applied to a group of products sold together?', options: ['Volume discount', 'Bundle discount', 'Promotional discount', 'Loyalty discount'], answer: 1, explanation: 'Bundle discounts are applied when products are purchased together as a package.' },
+                ]
+            },
+            m3: {
+                title: 'Module 3: Quotes',
+                icon: '📝',
+                questions: [
+                    { q: 'What is the first step in quote creation?', options: ['Add products', 'Select the customer', 'Apply discounts', 'Submit for approval'], answer: 1, explanation: 'Quote creation starts with selecting the customer, then adding products and configuring pricing.' },
+                    { q: 'What does a quote template include?', options: ['Only product prices', 'Professional formatting, branding, terms, line items', 'Only customer info', 'Only discount information'], answer: 1, explanation: 'Quote templates include branding, formatting, customer info, line items, terms, and more.' },
+                    { q: 'Which quote status means it has been sent to the customer?', options: ['Draft', 'Pending Approval', 'Sent', 'Accepted'], answer: 2, explanation: 'The "Sent" status indicates the quote has been delivered to the customer.' },
+                    { q: 'What is a "Line Item" in a quote?', options: ['A pricing rule', 'A single product entry with quantity and price', 'A customer contact', 'An approval step'], answer: 1, explanation: 'A Line Item is a single product in a quote with its quantity, unit price, and extended price.' },
+                    { q: 'What feature allows digital signing of quotes?', options: ['PDF generation', 'E-signature support', 'Quote versioning', 'Approval workflow'], answer: 1, explanation: 'E-signature (digital signature) support allows customers to sign quotes electronically.' },
+                ]
+            },
+            m4: {
+                title: 'Module 4: Approvals',
+                icon: '✅',
+                questions: [
+                    { q: 'In a typical approval matrix, quotes under $25K are...', options: ['Sent to Manager', 'Sent to VP', 'Auto-approved', 'Rejected'], answer: 2, explanation: 'Low-value quotes (under $25K) are typically auto-approved to speed up the process.' },
+                    { q: 'What triggers escalation in an approval workflow?', options: ['Customer request', 'Timeout — no response from approver', 'Product change', 'Template update'], answer: 1, explanation: 'Escalation is triggered when an approver does not respond within a defined time period.' },
+                    { q: 'What is a multi-tier approval?', options: ['Requiring multiple approvers at different levels', 'Approving multiple quotes at once', 'Approving for multiple customers', 'A single approver'], answer: 0, explanation: 'Multi-tier approval requires sign-off from multiple levels (e.g., Manager → Director → VP).' },
+                    { q: 'Which rule type routes quotes based on discount percentage?', options: ['Amount threshold rule', 'Discount threshold rule', 'Product-based rule', 'Customer rule'], answer: 1, explanation: 'Discount threshold rules route quotes for approval based on the discount percentage applied.' },
+                    { q: 'What is parallel approval?', options: ['Sequential approval by one person', 'Multiple approvers reviewing simultaneously', 'Automated approval', 'Rejection process'], answer: 1, explanation: 'Parallel approval allows multiple approvers to review a quote at the same time.' },
+                ]
+            },
+            m5: {
+                title: 'Module 5: Integration',
+                icon: '🔗',
+                questions: [
+                    { q: 'Which system does CPQ typically integrate with for opportunity tracking?', options: ['ERP', 'CRM', 'Billing', 'HR system'], answer: 1, explanation: 'CRM (e.g., Salesforce, ServiceNow) is the primary integration for opportunity and customer data.' },
+                    { q: 'What happens when a CPQ quote is accepted and integrated with billing?', options: ['Nothing', 'An invoice is automatically created', 'The quote is deleted', 'A new quote is generated'], answer: 1, explanation: 'When a quote is accepted, the billing integration automatically creates an invoice.' },
+                    { q: 'Which API type is most commonly used for CPQ integrations?', options: ['SOAP API', 'GraphQL', 'REST API', 'FTP'], answer: 2, explanation: 'REST API is the most commonly used API type for modern CPQ integrations.' },
+                    { q: 'What is data sync in the context of CPQ integration?', options: ['Backing up data', 'Keeping data consistent between systems in real-time', 'Deleting old data', 'Creating reports'], answer: 1, explanation: 'Data sync ensures that information like customer data, pricing, and quotes stays consistent across all connected systems.' },
+                    { q: 'What does ERP integration with CPQ primarily handle?', options: ['Quote generation', 'Order management and fulfillment', 'Customer communication', 'Report creation'], answer: 1, explanation: 'ERP integration handles order management, inventory, and fulfillment after a quote is accepted.' },
+                ]
+            },
+            m6: {
+                title: 'Module 6: Advanced Topics',
+                icon: '⚙️',
+                questions: [
+                    { q: 'What is field-level security (FLS) in CPQ?', options: ['Encrypting the database', 'Controlling who can see/edit specific fields', 'Password protection', 'Network security'], answer: 1, explanation: 'FLS controls which users can view or edit specific fields like pricing or discount data.' },
+                    { q: 'What is a key benefit of caching in CPQ performance optimization?', options: ['More accurate pricing', 'Faster data retrieval', 'Better security', 'Easier configuration'], answer: 1, explanation: 'Caching stores frequently accessed data in memory, reducing database queries and improving speed.' },
+                    { q: 'In CPQ scripting, what are business rules used for?', options: ['UI styling', 'Server-side automation logic', 'Customer communication', 'Report generation'], answer: 1, explanation: 'Business rules are server-side scripts that automate logic like pricing calculations and validations.' },
+                    { q: 'What does an audit trail track in CPQ?', options: ['System performance', 'All changes to quotes, pricing, and approvals', 'User interface changes', 'Server uptime'], answer: 1, explanation: 'Audit trails track all changes (who changed what, when) for compliance and accountability.' },
+                    { q: 'What performance improvement can optimization typically achieve?', options: ['10% faster', '30% faster', '73% faster', '5% faster'], answer: 2, explanation: 'Proper optimization can reduce quote generation from 4.5s to 1.2s — approximately 73% faster.' },
+                ]
+            },
+            m7: {
+                title: 'Module 7: Learning & Certification',
+                icon: '🎓',
+                questions: [
+                    { q: 'How many exercises are included in the CPQ course?', options: ['8', '12', '16', '20'], answer: 2, explanation: 'The course includes 16 hands-on exercises ranging from beginner to advanced.' },
+                    { q: 'What is the recommended weekly study time?', options: ['1-2 hours', '3-4 hours', '5-8 hours', '10-15 hours'], answer: 2, explanation: 'The recommended study time is 5-8 hours per week for consistent learning.' },
+                    { q: 'What passing score is required for CPQ specialist certification?', options: ['60%', '70%', '80%', '90%'], answer: 1, explanation: 'The CPQ specialist certification requires a minimum score of 70% to pass.' },
+                    { q: 'How many case studies are included in the course?', options: ['2', '3', '4', '6'], answer: 2, explanation: 'The course includes 4 detailed, real-world case studies with proven financial results.' },
+                    { q: 'What is the capstone exercise (Exercise 16)?', options: ['A quiz', 'A full end-to-end CPQ implementation', 'A case study analysis', 'A certification exam'], answer: 1, explanation: 'Exercise 16 is a comprehensive capstone project requiring a full CPQ implementation.' },
+                ]
+            }
+        };
+
+        const SCORE_KEY = 'cpq-quiz-scores';
+
+        function getScores() {
+            try { return JSON.parse(localStorage.getItem(SCORE_KEY)) || {}; } catch(e) { return {}; }
+        }
+
+        function saveScore(moduleId, score, total) {
+            const scores = getScores();
+            scores[moduleId] = { score, total, date: Date.now() };
+            localStorage.setItem(SCORE_KEY, JSON.stringify(scores));
+        }
+
+        function renderSelector() {
+            const container = document.getElementById('quiz-selector');
+            const scores = getScores();
+            container.innerHTML = Object.entries(quizData).map(([id, quiz]) => {
+                const s = scores[id];
+                const scoreBadge = s ? `<span class="score-badge">Best: ${s.score}/${s.total}</span>` : '';
+                return `
+                    <div class="quiz-card" onclick="startQuiz('${id}')">
+                        <div class="icon">${quiz.icon}</div>
+                        <h3>${quiz.title}</h3>
+                        <p>Test your knowledge of ${quiz.title.toLowerCase()}</p>
+                        <span class="q-count">${quiz.questions.length} questions</span>
+                        ${scoreBadge}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        let currentQuiz = null;
+        let currentQuestion = 0;
+        let answers = [];
+        let answered = false;
+
+        window.startQuiz = function(moduleId) {
+            currentQuiz = moduleId;
+            currentQuestion = 0;
+            answers = [];
+            answered = false;
+            document.getElementById('quiz-selector').style.display = 'none';
+            document.getElementById('quiz-area').classList.add('active');
+            renderQuestion();
+        };
+
+        function renderQuestion() {
+            const quiz = quizData[currentQuiz];
+            const q = quiz.questions[currentQuestion];
+            const area = document.getElementById('quiz-area');
+            const pct = ((currentQuestion) / quiz.questions.length) * 100;
+
+            area.innerHTML = `
+                <div class="quiz-header">
+                    <h2>${quiz.icon} ${quiz.title}</h2>
+                    <button class="back-btn" onclick="backToSelector()">← Back to Quizzes</button>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-bar-fill" style="width:${pct}%"></div>
+                </div>
+                <div class="question-card">
+                    <div class="question-num">Question ${currentQuestion + 1} of ${quiz.questions.length}</div>
+                    <div class="question-text">${q.q}</div>
+                    <div class="options">
+                        ${q.options.map((opt, i) => `
+                            <div class="option" onclick="selectAnswer(${i})" id="opt-${i}">
+                                <span class="option-letter">${String.fromCharCode(65 + i)}</span>
+                                <span>${opt}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="feedback" id="feedback"></div>
+                </div>
+                <div class="quiz-actions">
+                    <span style="color:var(--text-secondary);font-size:0.9em">Score: ${answers.filter(a => a).length}/${currentQuestion}</span>
+                    <button class="btn-primary" id="next-btn" onclick="nextQuestion()" disabled>
+                        ${currentQuestion < quiz.questions.length - 1 ? 'Next Question →' : 'See Results →'}
+                    </button>
+                </div>
+            `;
+            answered = false;
+        }
+
+        window.selectAnswer = function(index) {
+            if (answered) return;
+            answered = true;
+
+            const quiz = quizData[currentQuiz];
+            const q = quiz.questions[currentQuestion];
+            const correct = q.answer === index;
+            answers.push(correct);
+
+            // Highlight options
+            document.querySelectorAll('.option').forEach((opt, i) => {
+                opt.style.cursor = 'default';
+                if (i === q.answer) opt.classList.add('correct');
+                if (i === index && !correct) opt.classList.add('wrong');
+                if (i === index) opt.classList.add('selected');
+            });
+
+            // Show feedback
+            const fb = document.getElementById('feedback');
+            fb.className = `feedback show ${correct ? 'correct-fb' : 'wrong-fb'}`;
+            fb.innerHTML = `<strong>${correct ? '✅ Correct!' : '❌ Incorrect.'}</strong> ${q.explanation}`;
+
+            document.getElementById('next-btn').disabled = false;
+        };
+
+        window.nextQuestion = function() {
+            currentQuestion++;
+            const quiz = quizData[currentQuiz];
+            if (currentQuestion >= quiz.questions.length) {
+                showResults();
+            } else {
+                renderQuestion();
+            }
+        };
+
+        function showResults() {
+            const quiz = quizData[currentQuiz];
+            const correct = answers.filter(a => a).length;
+            const total = quiz.questions.length;
+            const pct = Math.round((correct / total) * 100);
+            const pass = pct >= 70;
+
+            // Save best score
+            const scores = getScores();
+            if (!scores[currentQuiz] || correct > scores[currentQuiz].score) {
+                saveScore(currentQuiz, correct, total);
+            }
+
+            const area = document.getElementById('quiz-area');
+            area.innerHTML = `
+                <div class="results-card">
+                    <h2>${quiz.icon} ${quiz.title} — Results</h2>
+                    <div class="results-score ${pass ? 'pass' : 'fail'}">${pct}%</div>
+                    <div class="results-detail">
+                        <p>You answered <strong>${correct} out of ${total}</strong> questions correctly.</p>
+                        <p style="margin-top:8px">${pass ? '🎉 Great job! You passed this module quiz.' : '📖 Keep studying! Review the module and try again.'}</p>
+                    </div>
+                    <div class="results-actions">
+                        <button class="btn-primary" onclick="startQuiz('${currentQuiz}')">Retake Quiz</button>
+                        <button class="btn-outline" onclick="backToSelector()">All Quizzes</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        window.backToSelector = function() {
+            document.getElementById('quiz-selector').style.display = '';
+            document.getElementById('quiz-area').classList.remove('active');
+            document.getElementById('quiz-area').innerHTML = '';
+            renderSelector();
+        };
+
+        // Init
+        renderSelector();
+    </script>
+</body>
+</html>
