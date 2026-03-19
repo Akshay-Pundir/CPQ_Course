@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPQ Learning Resources Hub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --light: #f5f5f5;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        header h1 {
+            color: var(--primary);
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        header p { color: #666; font-size: 1.1em; }
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        .resource-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            border-top: 4px solid var(--primary);
+        }
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        .resource-card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        .resource-card p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .resource-card .icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+        .tabs {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+        .tab-buttons {
+            display: flex;
+            border-bottom: 2px solid var(--light);
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px 20px;
+            background: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+        .tab-btn:hover {
+            background: var(--light);
+        }
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        .tab-content {
+            display: none;
+            padding: 30px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .resource-list {
+            list-style: none;
+        }
+        .resource-list li {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--light);
+        }
+        .resource-list li:last-child {
+            border-bottom: none;
+        }
+        .resource-list a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .resource-list a:hover {
+            text-decoration: underline;
+        }
+        .learning-path {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        .learning-path h2 {
+            color: var(--primary);
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+        .path-week {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: var(--light);
+            border-left: 4px solid var(--primary);
+            border-radius: 4px;
+        }
+        .path-week strong {
+            color: var(--primary);
+        }
+        .faq-section {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+        .faq-item {
+            border-bottom: 1px solid var(--light);
+        }
+        .faq-question {
+            padding: 20px;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary);
+            transition: all 0.3s;
+        }
+        .faq-question:hover {
+            background: var(--light);
+        }
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s;
+            background: #f9f9f9;
+        }
+        .faq-answer.open {
+            padding: 20px;
+            max-height: 500px;
+        }
+        footer {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            color: #666;
+        }
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8em; }
+            .resources-grid { grid-template-columns: 1fr; }
+            .tab-buttons { flex-direction: column; }
+            .tab-btn { min-width: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 CPQ Learning Resources Hub</h1>
+            <p>Complete Guide to Learning CPQ - All Resources Organized</p>
+        </header>
+
+        <div class="tabs">
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="switchTab('resources')">📖 Resources</button>
+                <button class="tab-btn" onclick="switchTab('learning')">🗓️ Learning Path</button>
+                <button class="tab-btn" onclick="switchTab('faq')">❓ FAQ</button>
+            </div>
+
+            <div id="resources" class="tab-content active">
+                <h2>Learning Resources by Category</h2>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="icon">📚</div>
+                        <h3>Main Course</h3>
+                        <p>Interactive course with all 7 modules fully expanded</p>
+                        <a href="cpq-master-course.html" style="color: var(--primary); font-weight: 600;">Open Course →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="icon">🎓</div>
+                        <h3>Exercises</h3>
+                        <p>16 hands-on exercises with complete solutions</p>
+                        <a href="exercises-interactive.html" style="color: var(--primary); font-weight: 600;">View Exercises →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="icon">📊</div>
+                        <h3>Case Studies</h3>
+                        <p>4 real-world implementations with financial results</p>
+                        <a href="case-studies-interactive.html" style="color: var(--primary); font-weight: 600;">Read Cases →</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="icon">🔗</div>
+                        <h3>External Resources</h3>
+                        <p>Official documentation and community resources</p>
+                    </div>
+                    <div class="resource-card">
+                        <div class="icon">📋</div>
+                        <h3>Documentation</h3>
+                        <p>Complete course documentation and guides</p>
+                    </div>
+                    <div class="resource-card">
+                        <div class="icon">🎯</div>
+                        <h3>Certifications</h3>
+                        <p>Prepare for CPQ specialist and developer exams</p>
+                    </div>
+                </div>
+
+                <h2 style="margin-top: 40px; color: var(--primary);">External Resources</h2>
+                <ul class="resource-list">
+                    <li><strong>ServiceNow Documentation:</strong> <a href="https://docs.servicenow.com" target="_blank">docs.servicenow.com</a> - Official platform documentation</li>
+                    <li><strong>ServiceNow Learning:</strong> <a href="https://learn.servicenow.com" target="_blank">learn.servicenow.com</a> - Official training platform</li>
+                    <li><strong>ServiceNow Community:</strong> <a href="https://community.servicenow.com" target="_blank">community.servicenow.com</a> - Community forums and discussions</li>
+                    <li><strong>Developer Instance:</strong> <a href="https://developer.servicenow.com" target="_blank">developer.servicenow.com</a> - Free instance for learning</li>
+                </ul>
+            </div>
+
+            <div id="learning" class="tab-content">
+                <h2>14-Week Learning Path</h2>
+                <div class="learning-path">
+                    <div class="path-week">
+                        <strong>Week 1-2: Fundamentals</strong>
+                        <p>Read Module 1: Fundamentals | Complete Exercise 1 | 5-8 hours</p>
+                    </div>
+                    <div class="path-week">
+                        <strong>Week 3-4: Products & Pricing</strong>
+                        <p>Read Module 2: Products & Pricing | Complete Exercises 2-3 | 5-8 hours</p>
+                    </div>
+                    <div class="path-week">
+                        <strong>Week 5-6: Quotes & Configuration</strong>
+                        <p>Read Module 3: Quotes & Configuration | Complete Exercises 4-5 | 5-8 hours</p>
+                    </div>
+                    <div class="path-week">
+                        <strong>Week 7-8: Approvals</strong>
+                        <p>Read Module 4: Approvals | Complete Exercise 6 | 5-8 hours</p>
+                    </div>
+                    <div class="path-week">
+                        <strong>Week 9-10: Integration</strong>
+                        <p>Read Module 5: Integration | Complete Exercises 7-10 | 5-8 hours</p>
+                    </div>
+                    <div class="path-week">
+                        <strong>Week 11-12: Advanced Topics</strong>
+                        <p>Read Module 6: Advanced | Complete Exercises 11-15 | 5-8 hours</p>
+                    </div>
+                    <div class="path-week">
+                        <strong>Week 13-14: Learning & Certification</strong>
+                        <p>Complete all exercises | Study all 4 case studies | Prepare for certification | 5-8 hours</p>
+                    </div>
+                </div>
+
+                <h2 style="margin-top: 40px; color: var(--primary);">Time Commitment</h2>
+                <div class="learning-path">
+                    <p><strong>Total Learning Time:</strong> 80-120 hours</p>
+                    <p><strong>Per Week:</strong> 5-8 hours</p>
+                    <p><strong>Duration:</strong> 13-20 weeks (self-paced)</p>
+                    <p style="margin-top: 15px; color: #666;">Can be completed faster in intensive format (4-8 weeks full-time)</p>
+                </div>
+            </div>
+
+            <div id="faq" class="tab-content">
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq-section">
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">Q: Can I learn offline?</div>
+                        <div class="faq-answer">
+                            <p><strong>A:</strong> Yes! All HTML and markdown files can be downloaded and used offline. Just download the files and open them locally in your browser.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">Q: Do I need ServiceNow access?</div>
+                        <div class="faq-answer">
+                            <p><strong>A:</strong> Recommended for exercises. Get a free developer instance at developer.servicenow.com. The course can be studied without access, but hands-on practice requires it.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">Q: Can I share this with my team?</div>
+                        <div class="faq-answer">
+                            <p><strong>A:</strong> Yes! The course is MIT licensed and fully shareable. Perfect for team training and organizational use.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">Q: Will this help me get a job?</div>
+                        <div class="faq-answer">
+                            <p><strong>A:</strong> Absolutely! This course leads to ServiceNow CPQ certifications, builds a portfolio of real projects, and teaches highly hireable skills.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">Q: Is this beginner-friendly?</div>
+                        <div class="faq-answer">
+                            <p><strong>A:</strong> Yes! The course starts from complete basics with no prior CPQ experience required. All levels from beginner to advanced are covered.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">Q: What if I get stuck?</div>
+                        <div class="faq-answer">
+                            <p><strong>A:</strong> Check the course materials first (usually has answers), review the glossary for terminology, look at case studies for similar examples, study the exercises for working examples, or consult ServiceNow official documentation.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p><strong>CPQ Master Course Learning Resources Hub</strong></p>
+            <p>Complete learning materials, exercises, and case studies</p>
+            <p style="margin-top: 15px; color: #999;">MIT License | Fully Shareable | GitHub Ready</p>
+        </footer>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            answer.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPQ Hands-On Exercises - Interactive Learning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --light: #f5f5f5;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .exercise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .exercise-card {
+            background: white;
+            border: 2px solid var(--light);
+            border-radius: 8px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .exercise-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            transform: translateY(-5px);
+        }
+        
+        .exercise-card h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+        
+        .exercise-card .difficulty {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .difficulty.beginner {
+            background: #e8f5e9;
+            color: var(--success);
+        }
+        
+        .difficulty.intermediate {
+            background: #fff3e0;
+            color: var(--warning);
+        }
+        
+        .difficulty.advanced {
+            background: #ffebee;
+            color: var(--danger);
+        }
+        
+        .exercise-card p {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+        }
+        
+        .exercise-detail {
+            display: none;
+            margin-top: 30px;
+            padding: 30px;
+            background: var(--light);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .exercise-detail.active {
+            display: block;
+        }
+        
+        .exercise-detail h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 15px;
+        }
+        
+        .exercise-detail h3 {
+            color: var(--secondary);
+            margin-top: 20px;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .scenario-box {
+            background: white;
+            border-left: 4px solid var(--warning);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .steps-box {
+            background: white;
+            border-left: 4px solid var(--success);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .steps-box ol {
+            margin-left: 20px;
+        }
+        
+        .steps-box li {
+            margin-bottom: 12px;
+            line-height: 1.8;
+        }
+        
+        .code-box {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .close-btn {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+        
+        .close-btn:hover {
+            background: darken(var(--danger), 10%);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+        }
+        
+        table th {
+            background: var(--primary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--light);
+        }
+        
+        table tr:hover {
+            background: var(--light);
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        footer {
+            background: var(--light);
+            padding: 30px;
+            text-align: center;
+            color: #666;
+            border-top: 2px solid var(--primary);
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .exercise-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .exercise-detail {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎓 CPQ Hands-On Exercises</h1>
+            <p>16 Complete Exercises with Solutions - Learn by Doing</p>
+        </header>
+        
+        <div class="content">
+            <h2 style="color: var(--primary); margin-bottom: 30px; border-bottom: 3px solid var(--primary); padding-bottom: 15px;">Filter Exercises by Level</h2>
+            
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterExercises('all')">All Exercises (16)</button>
+                <button class="filter-btn" onclick="filterExercises('beginner')">Beginner (5)</button>
+                <button class="filter-btn" onclick="filterExercises('intermediate')">Intermediate (7)</button>
+                <button class="filter-btn" onclick="filterExercises('advanced')">Advanced (4)</button>
+            </div>
+            
+            <div class="exercise-grid" id="exerciseGrid">
+                <!-- Exercises will be populated here -->
+            </div>
+            
+            <div id="exerciseDetails"></div>
+        </div>
+        
+        <footer>
+            <p><strong>CPQ Exercises Interactive Learning Platform</strong></p>
+            <p>16 Complete exercises | 1,200+ learning minutes | Beginner to Advanced</p>
+        </footer>
+    </div>
+    
+    <script>
+        const exercises = [
+            {
+                id: 1,
+                title: "Create Your First Quote",
+                difficulty: "beginner",
+                duration: "30 min",
+                scenario: "Customer 'ABC Corp' wants to purchase 100 licenses of Enterprise Software (Professional Edition) + Premium Support + 3-day workshop",
+                steps: [
+                    "Navigate to CPQ Module",
+                    "Click 'New Quote'",
+                    "Select Customer: 'ABC Corp'",
+                    "Add Products",
+                    "Let system calculate pricing",
+                    "Review totals",
+                    "Submit for approval"
+                ],
+                expected: "Quote with all line items, correct calculations, and professional formatting",
+                solution: "Quote #Q-001 with Software: $75,000, Support: $10,000, Implementation: $2,000, Total: $93,960 (after tax)"
+            },
+            {
+                id: 2,
+                title: "Apply Volume Discounts",
+                difficulty: "beginner",
+                duration: "45 min",
+                scenario: "Create volume discount rules: 50-99 units (10%), 100-249 units (15%), 250+ units (20%)",
+                steps: [
+                    "Navigate to Pricing Rules",
+                    "Create Rule 1: 50-99 units (10%)",
+                    "Create Rule 2: 100-249 units (15%)",
+                    "Create Rule 3: 250+ units (20%)",
+                    "Test with different quantities"
+                ],
+                expected: "Correct discounts applied automatically based on quantity",
+                solution: "75 units → 10% discount = $33,750 | 150 units → 15% discount = $63,750 | 300 units → 20% discount = $120,000"
+            },
+            {
+                id: 3,
+                title: "Create Product Bundles",
+                difficulty: "beginner",
+                duration: "60 min",
+                scenario: "Create 3 bundles: Starter (small), Growth (mid-market), Enterprise",
+                steps: [
+                    "Create Starter Bundle",
+                    "Add line items",
+                    "Set bundle pricing and discount",
+                    "Repeat for Growth bundle",
+                    "Repeat for Enterprise bundle",
+                    "Test bundle creation"
+                ],
+                expected: "3 bundles with correct products and pricing",
+                solution: "Starter: $26,125 | Growth: $77,425 | Enterprise: $263,200"
+            },
+            {
+                id: 4,
+                title: "Build Approval Workflows",
+                difficulty: "beginner",
+                duration: "75 min",
+                scenario: "Implement approval matrix: $0-25K (auto), $25K-50K (Manager), $50K-100K (Director), $100K+ (VP)",
+                steps: [
+                    "Create Amount Threshold Rule 1",
+                    "Create Amount Threshold Rule 2",
+                    "Create Discount Threshold Rule",
+                    "Set up approver routing",
+                    "Test with different quote values"
+                ],
+                expected: "Quotes route to correct approvers based on amount and discount",
+                solution: "$30K/8% discount → Manager approval | $75K/12% → Director | $150K/25% → CFO approval"
+            },
+            {
+                id: 5,
+                title: "Configure Quote Templates",
+                difficulty: "beginner",
+                duration: "60 min",
+                scenario: "Design professional quote template with company branding",
+                steps: [
+                    "Create new quote template",
+                    "Add company branding and logo",
+                    "Configure field mappings",
+                    "Design layout and formatting",
+                    "Test with sample quote"
+                ],
+                expected: "Professional, branded quote documents",
+                solution: "Template includes: header, customer info, line items, summary, terms, footer"
+            },
+            {
+                id: 6,
+                title: "CRM Integration Setup",
+                difficulty: "intermediate",
+                duration: "90 min",
+                scenario: "Integrate CPQ with CRM for opportunity tracking",
+                steps: [
+                    "Create quote from opportunity",
+                    "Auto-populate customer data",
+                    "Link quote to opportunity",
+                    "Update opportunity on quote acceptance",
+                    "Test full integration flow"
+                ],
+                expected: "Seamless CRM integration with data sync",
+                solution: "Quote creation → Opportunity updated → Quote accepted → Stage changed to 'Won'"
+            },
+            {
+                id: 7,
+                title: "Implement Custom Pricing Script",
+                difficulty: "intermediate",
+                duration: "120 min",
+                scenario: "Write JavaScript for tiered pricing with customer tiers",
+                steps: [
+                    "Define pricing formula",
+                    "Implement customer tier logic",
+                    "Add volume discount logic",
+                    "Protect minimum margin",
+                    "Test with multiple scenarios"
+                ],
+                expected: "Correct custom pricing calculations",
+                solution: "Gold 100 units → $40,000 | Silver 200 units → $67,500"
+            },
+            {
+                id: 8,
+                title: "Build Discount Approval Dashboard",
+                difficulty: "intermediate",
+                duration: "75 min",
+                scenario: "Create dashboard showing pending approvals and discount metrics",
+                steps: [
+                    "Create dashboard",
+                    "Add pending approvals widget",
+                    "Add discount summary",
+                    "Configure metrics and alerts",
+                    "Set refresh schedule"
+                ],
+                expected: "Real-time visibility into approvals and discounts",
+                solution: "Dashboard with: pending quotes, approval metrics, discount tracking, alerts"
+            },
+            {
+                id: 9,
+                title: "Create Configuration Wizard",
+                difficulty: "intermediate",
+                duration: "120 min",
+                scenario: "Build guided product configuration experience",
+                steps: [
+                    "Design step-by-step flow",
+                    "Create product selection step",
+                    "Add user count configuration",
+                    "Build add-on selection",
+                    "Test user workflows"
+                ],
+                expected: "Intuitive guided configuration",
+                solution: "5-step wizard with real-time pricing display"
+            },
+            {
+                id: 10,
+                title: "Integration with Billing System",
+                difficulty: "intermediate",
+                duration: "150 min",
+                scenario: "Sync accepted quotes to billing system",
+                steps: [
+                    "Configure API integration",
+                    "Map quote fields to invoice",
+                    "Implement sync logic",
+                    "Handle errors and retries",
+                    "Test end-to-end"
+                ],
+                expected: "Accepted quotes automatically sync to billing",
+                solution: "Quotes → Invoices created → Customer billing updated"
+            },
+            {
+                id: 11,
+                title: "Create Sales Intelligence Reports",
+                difficulty: "intermediate",
+                duration: "90 min",
+                scenario: "Build reporting on CPQ metrics",
+                steps: [
+                    "Define report queries",
+                    "Create visualizations",
+                    "Configure filters",
+                    "Set up scheduling",
+                    "Test reports"
+                ],
+                expected: "Actionable CPQ metrics and insights",
+                solution: "Reports on: quoting activity, discounts, pipeline value, performance"
+            },
+            {
+                id: 12,
+                title: "Security & Audit Configuration",
+                difficulty: "intermediate",
+                duration: "75 min",
+                scenario: "Secure sensitive pricing data",
+                steps: [
+                    "Configure field-level security",
+                    "Set record-level access",
+                    "Enable audit logging",
+                    "Implement data masking",
+                    "Test security rules"
+                ],
+                expected: "Secured pricing data with audit trails",
+                solution: "FLS, RLS, audit logs, monitoring enabled"
+            },
+            {
+                id: 13,
+                title: "Multi-Currency & Multi-Region Setup",
+                difficulty: "advanced",
+                duration: "120 min",
+                scenario: "Configure CPQ for global use (5+ currencies, regional pricing)",
+                steps: [
+                    "Set up currency codes",
+                    "Configure exchange rates",
+                    "Create regional pricing",
+                    "Localize templates",
+                    "Test multi-currency quotes"
+                ],
+                expected: "Global CPQ with regional support",
+                solution: "USD/EUR/GBP/JPY/CNY supported with daily rate updates"
+            },
+            {
+                id: 14,
+                title: "Performance Optimization",
+                difficulty: "advanced",
+                duration: "90 min",
+                scenario: "Optimize CPQ for large catalogs",
+                steps: [
+                    "Profile current performance",
+                    "Index frequently-used products",
+                    "Simplify pricing rules",
+                    "Optimize quote generation",
+                    "Load test system"
+                ],
+                expected: "Improved performance metrics",
+                solution: "Quote generation: 4.5s → 1.2s (73% faster)"
+            },
+            {
+                id: 15,
+                title: "Troubleshooting & Problem Resolution",
+                difficulty: "advanced",
+                duration: "60 min",
+                scenario: "Diagnose and fix common CPQ issues",
+                steps: [
+                    "Identify pricing calculation error",
+                    "Debug approval stuck",
+                    "Resolve slow quote generation",
+                    "Fix CRM sync issues",
+                    "Document solutions"
+                ],
+                expected: "All issues identified and resolved",
+                solution: "Root causes found and fixed with documentation"
+            },
+            {
+                id: 16,
+                title: "Full Implementation Lab (Capstone)",
+                difficulty: "advanced",
+                duration: "240 min",
+                scenario: "Complete end-to-end CPQ implementation",
+                steps: [
+                    "Create product catalog (20+ products)",
+                    "Set up pricing rules (10+ rules)",
+                    "Build quote templates",
+                    "Configure approvals",
+                    "Integrate with CRM",
+                    "Create dashboards",
+                    "Test thoroughly",
+                    "Document everything"
+                ],
+                expected: "Fully functional CPQ implementation",
+                solution: "Production-ready CPQ system with all components"
+            }
+        ];
+        
+        function filterExercises(difficulty) {
+            const grid = document.getElementById('exerciseGrid');
+            grid.innerHTML = '';
+            
+            const filtered = difficulty === 'all' ? exercises : exercises.filter(e => e.difficulty === difficulty);
+            
+            filtered.forEach(exercise => {
+                const card = document.createElement('div');
+                card.className = 'exercise-card';
+                card.onclick = () => showDetail(exercise.id);
+                
+                card.innerHTML = `
+                    <h3>#${exercise.id} ${exercise.title}</h3>
+                    <span class="difficulty ${exercise.difficulty}">${exercise.difficulty.toUpperCase()}</span>
+                    <p>Duration: ${exercise.duration}</p>
+                `;
+                
+                grid.appendChild(card);
+            });
+            
+            // Update active filter button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+        
+        function showDetail(id) {
+            const exercise = exercises.find(e => e.id === id);
+            const detailDiv = document.getElementById('exerciseDetails');
+            
+            detailDiv.innerHTML = `
+                <div class="exercise-detail active">
+                    <h2>#${exercise.id} ${exercise.title}</h2>
+                    <span class="difficulty ${exercise.difficulty}">${exercise.difficulty.toUpperCase()}</span>
+                    <p><strong>Duration:</strong> ${exercise.duration}</p>
+                    
+                    <h3>Scenario</h3>
+                    <div class="scenario-box">
+                        <p>${exercise.scenario}</p>
+                    </div>
+                    
+                    <h3>Steps</h3>
+                    <div class="steps-box">
+                        <ol>
+                            ${exercise.steps.map(step => `<li>${step}</li>`).join('')}
+                        </ol>
+                    </div>
+                    
+                    <h3>Expected Output</h3>
+                    <div class="scenario-box">
+                        <p>${exercise.expected}</p>
+                    </div>
+                    
+                    <h3>Solution</h3>
+                    <div class="code-box">
+                        ${exercise.solution}
+                    </div>
+                    
+                    <button class="close-btn" onclick="closeDetail()">← Back to Exercises</button>
+                </div>
+            `;
+            
+            window.scrollTo(0, 0);
+        }
+        
+        function closeDetail() {
+            document.getElementById('exerciseDetails').innerHTML = '';
+        }
+        
+        // Initial load
+        filterExercises('all');
+    </script>
+</body>
+</html>
