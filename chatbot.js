@@ -114,7 +114,7 @@
         },
         {
             keywords: ['module', 'modules', 'course content', 'syllabus', 'topics', 'what does this course cover'],
-            answer: '**This CPQ Master Course covers 7 modules:**\n\n📖 Module 1: Fundamentals – What, Why, How of CPQ\n🛍️ Module 2: Products & Pricing – Catalog, pricing models, bundles\n📝 Module 3: Quotes – Creation, templates, lifecycle\n✅ Module 4: Approvals – Workflows, rules, escalation\n🔗 Module 5: Integration & Reporting – APIs, CRM, analytics\n⚙️ Module 6: Advanced Topics – Guided selling, automation\n🚀 Module 7: Implementation – Deployment, best practices\n\n➡️ Click **Course** in the nav bar to start learning!',
+            answer: '**This CPQ Master Course covers 10 modules:**\n\n📖 Module 1: Fundamentals – What, Why, How of CPQ\n🛍️ Module 2: Products & Pricing – Catalog, pricing models, bundles\n📝 Module 3: Quotes – Creation, templates, lifecycle\n✅ Module 4: Approvals – Workflows, rules, escalation\n🔗 Module 5: Integration & Reporting – APIs, CRM, analytics\n⚙️ Module 6: Advanced Topics – Guided selling, automation\n🚀 Module 7: Implementation – Deployment, best practices\n🧠 Module 8: AI & ML – Predictive pricing, smart recommendations\n🌐 Module 9: Omnichannel – Headless CPQ, B2B eCommerce\n🏢 Module 10: Industry CPQ – SaaS vs Manufacturing, RevOps\n\n➡️ Click **Course** in the nav bar to start learning!',
             topic: 'Course Overview'
         },
         {
@@ -129,7 +129,7 @@
         },
         {
             keywords: ['quiz', 'quizzes', 'test', 'assessment', 'knowledge check'],
-            answer: '**Knowledge Quizzes:**\n\n📝 **7 module quizzes** with **38 total questions:**\n• Module 1: Fundamentals (6 questions)\n• Module 2: Products & Pricing (6 questions)\n• Module 3: Quotes (5 questions)\n• Module 4: Approvals (5 questions)\n• Module 5: Integration (5 questions)\n• Module 6: Advanced (5 questions)\n• Module 7: Implementation (6 questions)\n\n✅ Instant feedback, explanations, and score tracking!\n\n➡️ Click **Quizzes** in the nav bar to start!',
+            answer: '**Knowledge Quizzes:**\n\n📝 **10 module quizzes** with **53 total questions:**\n• Modules 1-7: Fundamentals to Implementation (38 questions)\n• Module 8: AI & ML (3 questions)\n• Module 9: Omnichannel & Headless (3 questions)\n• Module 10: Industry & RevOps (3 questions)\n• *(More questions coming soon!)*\n\n✅ Instant feedback, explanations, and score tracking!\n\n➡️ Click **Quizzes** in the nav bar to start!',
             topic: 'Quizzes'
         },
         {
@@ -149,7 +149,7 @@
         },
         {
             keywords: ['thank', 'thanks', 'thank you', 'thx', 'appreciate'],
-            answer: 'You\'re welcome! 😊 Happy to help with your CPQ learning journey.\n\nFeel free to ask me anything else, or explore the course modules for in-depth learning.\n\n💡 **Quick links:**\n• 📖 Course – Full 7-module content\n• 🎓 Exercises – Hands-on practice\n• 📝 Quizzes – Test your knowledge\n• 📋 Cases – Real-world examples',
+            answer: 'You\'re welcome! 😊 Happy to help with your CPQ learning journey.\n\nFeel free to ask me anything else, or explore the course modules for in-depth learning.\n\n💡 **Quick links:**\n• 📖 Course – Full 10-module content\n• 🎓 Exercises – Hands-on practice\n• 📝 Quizzes – Test your knowledge\n• 📋 Cases – Real-world examples',
             topic: 'Thanks'
         },
         {
@@ -171,6 +171,21 @@
             keywords: ['search', 'find', 'look for', 'ctrl k', 'ctrl+k'],
             answer: '**Search Feature:**\n\n🔍 **How to use:**\n• Press **Ctrl+K** (or **Cmd+K** on Mac)\n• Or click the 🔍 icon in the nav bar\n• Type your search query\n• Click a result to jump to that page\n\nSearches across all modules, exercises, case studies, and resources!',
             topic: 'Search'
+        },
+        {
+            keywords: ['ai', 'artificial intelligence', 'machine learning', 'predictive', 'smart'],
+            answer: '**AI and Machine Learning in CPQ:**\n\n🧠 **Predictive Pricing:** AI suggests the exact price point to maximize win probability and margin.\n🎯 **Smart Recommendations:** Machine learning suggests upsells and cross-sells based on historical deal data.\n🤖 **Quoting Automation:** Generative AI drafts executive summaries and customizes proposal text automatically.\n\n➡️ Learn more in **Module 8: AI & ML**!',
+            topic: 'AI in CPQ'
+        },
+        {
+            keywords: ['omnichannel', 'omni-channel', 'omni channel', 'headless', 'ecommerce', 'b2b'],
+            answer: '**Headless & Omnichannel CPQ:**\n\n🌐 **Headless Architecture:** Decouples the pricing/rules engine from the front-end UI via APIs.\n🛒 **B2B eCommerce:** Allows buyers to configure complex products themselves in a self-service portal.\n🔗 **API-First:** Built to integrate anywhere—mobile apps, custom portals, or partner sites.\n\n➡️ Learn more in **Module 9: Omnichannel**!',
+            topic: 'Headless CPQ'
+        },
+        {
+            keywords: ['revops', 'revenue operations', 'saas', 'subscription', 'manufacturing', 'industry'],
+            answer: '**Industry-Specific CPQ & RevOps:**\n\n🏢 **SaaS CPQ:** Focuses on subscriptions, usage billing, renewals, and co-terming.\n🏭 **Manufacturing CPQ:** Handles 3D visualization, constraint rules (incompatible physical parts), and Bill of Materials (BOM) generation.\n📈 **RevOps:** CPQ acts as the single source of truth for pricing across sales, marketing, and customer success.\n\n➡️ Learn more in **Module 10: Industry & RevOps**!',
+            topic: 'RevOps & Industry'
         }
     ];
 

@@ -15,7 +15,10 @@
         'm4-workflows', 'm4-rules', 'm4-process', 'm4-escalation', 'm4-matrix',
         'm5-crm', 'm5-billing', 'm5-erp', 'm5-apis', 'm5-sync',
         'm6-fields', 'm6-scripting', 'm6-perf', 'm6-security', 'm6-best', 'm6-trouble',
-        'm7-exercises', 'm7-cases', 'm7-cert', 'm7-interview', 'm7-projects'
+        'm7-exercises', 'm7-cases', 'm7-cert', 'm7-interview', 'm7-projects',
+        'm8-predictive', 'm8-smart', 'm8-automation',
+        'm9-headless', 'm9-b2b', 'm9-api',
+        'm10-saas', 'm10-mfg', 'm10-revops'
     ];
 
     function getProgress() {
@@ -70,6 +73,9 @@
             { name: 'Module 5: Integration', ids: ['m5-crm','m5-billing','m5-erp','m5-apis','m5-sync'] },
             { name: 'Module 6: Advanced', ids: ['m6-fields','m6-scripting','m6-perf','m6-security','m6-best','m6-trouble'] },
             { name: 'Module 7: Learning', ids: ['m7-exercises','m7-cases','m7-cert','m7-interview','m7-projects'] },
+            { name: 'Module 8: AI & ML', ids: ['m8-predictive','m8-smart','m8-automation'] },
+            { name: 'Module 9: Omnichannel', ids: ['m9-headless','m9-b2b','m9-api'] },
+            { name: 'Module 10: Industry CPQ', ids: ['m10-saas','m10-mfg','m10-revops'] }
         ];
 
         return modules.map(mod => {

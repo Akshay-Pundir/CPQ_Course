@@ -422,6 +422,32 @@
                     <li><a onclick="showSection('m7-projects')" class="nav-link">7.5 Projects</a></li>
                 </ul>
             </li>
+            <li>
+                <a onclick="toggleSubmenu(this)">🧠 Module 8: AI & ML</a>
+                <ul class="submenu">
+                    <li><a onclick="showSection('m8-predictive')" class="nav-link">8.1 Predictive Pricing</a></li>
+                    <li><a onclick="showSection('m8-smart')" class="nav-link">8.2 Smart Recommendations</a></li>
+                    <li><a onclick="showSection('m8-automation')" class="nav-link">8.3 AI Automation</a></li>
+                </ul>
+            </li>
+            
+            <li>
+                <a onclick="toggleSubmenu(this)">🌐 Module 9: Omnichannel</a>
+                <ul class="submenu">
+                    <li><a onclick="showSection('m9-headless')" class="nav-link">9.1 Headless CPQ</a></li>
+                    <li><a onclick="showSection('m9-b2b')" class="nav-link">9.2 B2B eCommerce</a></li>
+                    <li><a onclick="showSection('m9-api')" class="nav-link">9.3 API-First Design</a></li>
+                </ul>
+            </li>
+            
+            <li>
+                <a onclick="toggleSubmenu(this)">🏢 Module 10: Industry & RevOps</a>
+                <ul class="submenu">
+                    <li><a onclick="showSection('m10-saas')" class="nav-link">10.1 SaaS Subscriptions</a></li>
+                    <li><a onclick="showSection('m10-mfg')" class="nav-link">10.2 Manufacturing</a></li>
+                    <li><a onclick="showSection('m10-revops')" class="nav-link">10.3 CPQ in RevOps</a></li>
+                </ul>
+            </li>
             
             <li><a onclick="showSection('resources')" class="nav-link">📚 Resources</a></li>
         </ul>
@@ -1826,6 +1852,108 @@ console.log(totalPrice); // $42,500</code>
                 </div>
             </div>
             
+            <button class="button" onclick="showSection('m8-predictive')">Next: Module 8 - AI & ML →</button>
+        </div>
+
+        <!-- MODULE 8: AI & ML -->
+        <div id="m8-predictive" class="content-section">
+            <div class="breadcrumb">Module 8: AI & Machine Learning &gt; Predictive Pricing</div>
+            <h2>Predictive Pricing & Dynamic Discounting</h2>
+            <div class="section">
+                <p>AI algorithms analyze historical win/loss data to suggest the optimal price point that maximizes both win probability and margin.</p>
+                <div class="box info-box">
+                    <h4>Key Benefits</h4>
+                    <ul>
+                        <li>Eliminates guesswork from discounting.</li>
+                        <li>Protects margins dynamically based on deal size and customer history.</li>
+                        <li>Increases win rates by up to 15%.</li>
+                    </ul>
+                </div>
+            </div>
+            <button class="button" onclick="showSection('m8-smart')">Next: Smart Recommendations →</button>
+        </div>
+
+        <div id="m8-smart" class="content-section">
+            <div class="breadcrumb">Module 8: AI & Machine Learning &gt; Smart Recommendations</div>
+            <h2>Smart Product Recommendations</h2>
+            <div class="section">
+                <p>Machine Learning models suggest upsell and cross-sell opportunities in real-time as sales reps build quotes.</p>
+                <div class="box success-box">
+                    <h4>How it Works</h4>
+                    <p>When a rep adds "Server Hardware X", the AI suggests "Extended Support Y" because 80% of previous similar deals included it.</p>
+                </div>
+            </div>
+            <button class="button" onclick="showSection('m8-automation')">Next: AI Automation →</button>
+        </div>
+
+        <div id="m8-automation" class="content-section">
+            <div class="breadcrumb">Module 8: AI & Machine Learning &gt; AI Automation</div>
+            <h2>AI-Driven Quoting Automation</h2>
+            <div class="section">
+                <p>Generative AI can draft executive summaries, customize proposal language, and even analyze RFPs to auto-populate product configurations.</p>
+            </div>
+            <button class="button" onclick="showSection('m9-headless')">Next: Module 9 - Omnichannel CPQ →</button>
+        </div>
+
+        <!-- MODULE 9: OMNICHANNEL -->
+        <div id="m9-headless" class="content-section">
+            <div class="breadcrumb">Module 9: Omnichannel CPQ &gt; Headless CPQ</div>
+            <h2>Headless CPQ Architecture</h2>
+            <div class="section">
+                <p>Headless CPQ decouples the front-end UI from the back-end pricing and configuration engine. This allows you to embed CPQ logic anywhere—a custom portal, a mobile app, or an eCommerce site.</p>
+                <table class="data-table">
+                    <tr><th>Monolithic CPQ</th><th>Headless CPQ</th></tr>
+                    <tr><td>Tightly coupled front/back-end</td><td>API-driven flexibility</td></tr>
+                    <tr><td>Vendor-locked UI</td><td>Custom UX via React/Vue/etc.</td></tr>
+                    <tr><td>Slower deployment</td><td>Rapid omnichannel rollout</td></tr>
+                </table>
+            </div>
+            <button class="button" onclick="showSection('m9-b2b')">Next: B2B eCommerce →</button>
+        </div>
+
+        <div id="m9-b2b" class="content-section">
+            <div class="breadcrumb">Module 9: Omnichannel CPQ &gt; B2B eCommerce</div>
+            <h2>B2B eCommerce & Self-Service</h2>
+            <div class="section">
+                <p>Buyers today expect B2C-like experiences in B2B. A unified CPQ strategy allows customers to configure complex products, get accurate pricing, and generate quotes independently through a self-service eCommerce portal.</p>
+            </div>
+            <button class="button" onclick="showSection('m9-api')">Next: API-First Design →</button>
+        </div>
+
+        <div id="m9-api" class="content-section">
+            <div class="breadcrumb">Module 9: Omnichannel CPQ &gt; API-First Design</div>
+            <h2>API-First Architecture</h2>
+            <div class="section">
+                <p>Modern CPQs use Microservices and REST/GraphQL APIs, allowing seamless integration with ERPs, CRMs, Billing systems, and custom 3rd-party apps.</p>
+            </div>
+            <button class="button" onclick="showSection('m10-saas')">Next: Module 10 - Industry CPQ →</button>
+        </div>
+
+        <!-- MODULE 10: INDUSTRY & REVOPS -->
+        <div id="m10-saas" class="content-section">
+            <div class="breadcrumb">Module 10: Industry & RevOps &gt; SaaS Subscriptions</div>
+            <h2>SaaS & Subscription Management</h2>
+            <div class="section">
+                <p>SaaS CPQ handles recurring revenue models, usage-based billing, mid-term contract amendments, renewals, and co-terming (aligning end dates of multiple subscriptions).</p>
+            </div>
+            <button class="button" onclick="showSection('m10-mfg')">Next: Manufacturing →</button>
+        </div>
+
+        <div id="m10-mfg" class="content-section">
+            <div class="breadcrumb">Module 10: Industry & RevOps &gt; Manufacturing</div>
+            <h2>Manufacturing (Complex Config)</h2>
+            <div class="section">
+                <p>Manufacturing CPQ requires deep 2D/3D visualization, constraint-based configuration (e.g., preventing incompatible physical parts), and BOM (Bill of Materials) generation for ERP routing.</p>
+            </div>
+            <button class="button" onclick="showSection('m10-revops')">Next: CPQ in RevOps →</button>
+        </div>
+
+        <div id="m10-revops" class="content-section">
+            <div class="breadcrumb">Module 10: Industry & RevOps &gt; RevOps</div>
+            <h2>CPQ as the Core of RevOps</h2>
+            <div class="section">
+                <p>Revenue Operations (RevOps) unifies sales, marketing, and customer success. CPQ acts as the single source of truth for pricing data, enabling high-quality revenue forecasting and seamless Quote-to-Cash operations.</p>
+            </div>
             <button class="button" onclick="showSection('resources')">Next: Resources →</button>
         </div>
 
