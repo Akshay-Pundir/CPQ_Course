@@ -26,27 +26,28 @@
         }
         .container { max-width: 1000px; margin: 0 auto; }
         header {
-            background: white;
+            background: var(--bg-card, white);
             padding: 50px 40px;
             border-radius: 12px;
             margin-bottom: 40px;
             text-align: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            box-shadow: var(--shadow-lg, 0 10px 40px rgba(0,0,0,0.2));
         }
         header h1 { color: var(--primary); font-size: 2.5em; margin-bottom: 10px; }
-        header p { color: #666; font-size: 1.1em; }
+        header p { color: var(--text-secondary, #666); font-size: 1.1em; }
         .guides-container {
-            background: white;
+            background: var(--bg-card, white);
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-card, 0 5px 20px rgba(0,0,0,0.1));
             margin-bottom: 40px;
+            color: var(--text-primary, #333);
         }
         .guide-nav {
             display: flex;
-            border-bottom: 2px solid var(--light);
+            border-bottom: 2px solid var(--border-light, #e2e8f0);
             flex-wrap: wrap;
-            background: var(--light);
+            background: var(--bg-card-hover, #f5f5f5);
         }
         .guide-btn {
             flex: 1;
@@ -56,12 +57,13 @@
             border: none;
             cursor: pointer;
             font-weight: 600;
-            color: #666;
+            color: var(--text-secondary, #666);
             transition: all 0.3s;
             border-bottom: 3px solid transparent;
+            font-family: 'Inter', sans-serif;
         }
-        .guide-btn:hover { background: white; }
-        .guide-btn.active { color: var(--primary); background: white; border-bottom-color: var(--primary); }
+        .guide-btn:hover { background: var(--bg-card, white); }
+        .guide-btn.active { color: var(--primary); background: var(--bg-card, white); border-bottom-color: var(--primary); }
         .guide-content {
             display: none;
             padding: 40px;
@@ -81,50 +83,54 @@
             font-size: 1.3em;
         }
         .info-box {
-            background: #e3f2fd;
+            background: var(--color-info-bg, #e3f2fd);
             border-left: 4px solid var(--primary);
             padding: 20px;
             margin: 20px 0;
             border-radius: 4px;
+            color: var(--text-primary, #333);
         }
         .success-box {
-            background: #e8f5e9;
+            background: var(--color-success-bg, #e8f5e9);
             border-left: 4px solid var(--success);
             padding: 20px;
             margin: 20px 0;
             border-radius: 4px;
+            color: var(--text-primary, #333);
         }
         .warning-box {
-            background: #fff3e0;
+            background: var(--color-warning-bg, #fff3e0);
             border-left: 4px solid var(--warning);
             padding: 20px;
             margin: 20px 0;
             border-radius: 4px;
+            color: var(--text-primary, #333);
         }
         ul { margin-left: 20px; }
         li { margin-bottom: 12px; }
         code {
-            background: #f5f5f5;
+            background: var(--bg-card-hover, #f5f5f5);
             padding: 2px 6px;
             border-radius: 3px;
-            font-family: 'Courier New', monospace;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
             color: var(--primary);
         }
         .code-block {
-            background: #1e1e1e;
-            color: #d4d4d4;
+            background: var(--bg-code, #1e1e2e);
+            color: var(--text-code, #e2e8f0);
             padding: 20px;
             border-radius: 8px;
             overflow-x: auto;
             margin: 20px 0;
-            font-family: 'Courier New', monospace;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
             font-size: 0.9em;
         }
         .checklist {
-            background: var(--light);
+            background: var(--color-info-bg, #f5f5f5);
             padding: 20px;
             border-radius: 8px;
             margin: 20px 0;
+            color: var(--text-primary, #333);
         }
         .checklist-item {
             padding: 10px 0;
@@ -138,11 +144,11 @@
             cursor: pointer;
         }
         footer {
-            background: white;
+            background: var(--bg-card, white);
             padding: 30px;
             border-radius: 12px;
             text-align: center;
-            color: #666;
+            color: var(--text-secondary, #666);
         }
         @media (max-width: 768px) {
             header h1 { font-size: 1.8em; }
